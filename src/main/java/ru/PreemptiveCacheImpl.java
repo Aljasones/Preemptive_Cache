@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PreemptiveCacheImpl<K, V> implements PreemptiveCache {
+public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
     private Map<K, CacheEntry<V>> cache;
     private Queue<K> keyQueue;
     private int maxSize;
@@ -25,7 +25,6 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache {
         private T entry;
 
         public CacheEntry(long expireBy, T entry) {
-            super();
             this.expireBy = expireBy;
             this.entry = entry;
         }
@@ -39,6 +38,7 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache {
         }
 
     }
+
 
     public V get(K key) {
         if (key == null) {
@@ -59,8 +59,9 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache {
         return entry.getEntry();
     }
 
-    public V removeAndGet(K key) {
 
+
+    public V removeAndGet(K key) {
         if (key == null) {
             return null;
         }
@@ -73,6 +74,7 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache {
 
         return null;
     }
+
     public void put(K key, V value, int secondsToLive) {
         if (key == null) {
             throw new IllegalArgumentException("Invalid Key.");
@@ -93,12 +95,13 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache {
         cache.put(key, new CacheEntry<V>(expireBy, value));
         keyQueue.add(key);
     }
+
     public boolean remove(K key) {
         return removeAndGet(key) != null;
     }
 
     public int size() {
-        return cacheSize.get();
+        return cache.size();
     }
 
     public Map<K, V> getAll(Collection<K> collection) {
@@ -111,7 +114,7 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache {
 
     public void clear() {
         cache.clear();
+        keyQueue.clear();
     }
-
-
 }
+
