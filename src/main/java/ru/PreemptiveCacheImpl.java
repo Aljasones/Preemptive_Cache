@@ -20,20 +20,14 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
         keyQueue = new ConcurrentLinkedQueue<K>();
     }
 
-    private class CacheEntry<T> {
-        private long expireBy;
-        private T entry;
+    private class CacheEntry<V> {
+        private V entry;
 
-        public CacheEntry(long expireBy, T entry) {
-            this.expireBy = expireBy;
+        public CacheEntry(V entry) {
             this.entry = entry;
         }
 
-        public long getExpireBy() {
-            return expireBy;
-        }
-
-        public T getEntry() {
+        public V getEntry() {
             return entry;
         }
 
@@ -46,16 +40,10 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
         }
 
         CacheEntry<V> entry = cache.get(key);
-
         if (entry == null) {
             return null;
         }
 
-        long timestamp = entry.getExpireBy();
-        if (timestamp != -1 && System.currentTimeMillis() > timestamp) {
-            remove(key);
-            return null;
-        }
         return entry.getEntry();
     }
 
@@ -75,7 +63,7 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
         return null;
     }
 
-    public void put(K key, V value, int secondsToLive) {
+    public void put(K key, V value) {
         if (key == null) {
             throw new IllegalArgumentException("Invalid Key.");
         }
@@ -83,8 +71,6 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
             throw new IllegalArgumentException("Invalid Value.");
         }
 
-        long expireBy = secondsToLive != -1 ? System.currentTimeMillis()
-                + (secondsToLive * 1000) : secondsToLive;
         boolean exists = cache.containsKey(key);
         if (!exists) {
             cacheSize.incrementAndGet();
@@ -92,7 +78,7 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
                 remove(keyQueue.poll());
             }
         }
-        cache.put(key, new CacheEntry<V>(expireBy, value));
+        cache.put(key, new CacheEntry<V>(value));
         keyQueue.add(key);
     }
 

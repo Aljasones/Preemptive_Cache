@@ -9,7 +9,7 @@ public interface PreemptiveCache<K, V> {
 
      V removeAndGet(K key);
 
-     void put(K key, V value, int secondsToLive);
+     void put(K key, V value);
 
      boolean remove(K key);
 
