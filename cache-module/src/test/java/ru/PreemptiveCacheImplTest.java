@@ -13,7 +13,7 @@ public class PreemptiveCacheImplTest {
     @Test
     public void get() {
         int maxSize = 10;
-        PreemptiveCacheImpl cache = new PreemptiveCacheImpl(maxSize);
+        PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value = "Some value";
         int key = 1;
         cache.put(key, value);
@@ -26,7 +26,7 @@ public class PreemptiveCacheImplTest {
     @Test
     public void removeAndGet() {
         int maxSize = 10;
-        PreemptiveCacheImpl cache = new PreemptiveCacheImpl(maxSize);
+        PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value = "Some value";
         int key = 1;
         cache.put(key, value);
@@ -39,7 +39,7 @@ public class PreemptiveCacheImplTest {
     @Test
     public void remove() {
         int maxSize = 10;
-        PreemptiveCacheImpl cache = new PreemptiveCacheImpl(maxSize);
+        PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value = "Some value";
         int key = 1;
         cache.put(key, value);
@@ -49,7 +49,7 @@ public class PreemptiveCacheImplTest {
     @Test
     public void size(){
         int maxSize = 10;
-        PreemptiveCacheImpl cache = new PreemptiveCacheImpl(maxSize);
+        PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value1 = "value1";
         String value2 = "value2";
         String value3 = "value3";
@@ -69,7 +69,7 @@ public class PreemptiveCacheImplTest {
     @Test
     public void clear() {
         int maxSize = 10;
-        PreemptiveCacheImpl cache = new PreemptiveCacheImpl(maxSize);
+        PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value1 = "value 1";
         String value2 = "value 2";
         int key1 = 4;
@@ -87,7 +87,7 @@ public class PreemptiveCacheImplTest {
     @Test
     public void getAll() {
         int maxSize = 10;
-        PreemptiveCacheImpl cache = new PreemptiveCacheImpl(maxSize);
+        PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value1 = "value 1";
         String value2 = "value 2";
         String value3 = "value 3";
@@ -122,7 +122,7 @@ public class PreemptiveCacheImplTest {
     @Test
     public void overage() {
         int maxSize = 10;
-        PreemptiveCacheImpl cache = new PreemptiveCacheImpl(maxSize);
+        PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         for (int i = 0; i < 100; i++) {
          cache.put(i, i);
         }
