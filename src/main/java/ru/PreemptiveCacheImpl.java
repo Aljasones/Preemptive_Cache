@@ -30,13 +30,11 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
         public V getEntry() {
             return entry;
         }
-
     }
-
 
     public V get(K key) {
         if (key == null) {
-            throw new IllegalArgumentException("Invalid Key.");
+            throw new IllegalArgumentException("key is null");
         }
 
         CacheEntry<V> entry = cache.get(key);
@@ -46,8 +44,6 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
 
         return entry.getEntry();
     }
-
-
 
     public V removeAndGet(K key) {
         if (key == null) {
@@ -65,10 +61,10 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
 
     public void put(K key, V value) {
         if (key == null) {
-            throw new IllegalArgumentException("Invalid Key.");
+            throw new IllegalArgumentException("key is null");
         }
         if (value == null) {
-            throw new IllegalArgumentException("Invalid Value.");
+            throw new IllegalArgumentException("value is null");
         }
 
         boolean exists = cache.containsKey(key);
@@ -91,11 +87,11 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
     }
 
     public Map<K, V> getAll(Collection<K> collection) {
-        Map<K, V> ret = new HashMap<K, V>();
+        Map<K, V> resultMap = new HashMap<K, V>();
         for (K o : collection) {
-            ret.put(o, get(o));
+            resultMap.put(o, get(o));
         }
-        return ret;
+        return resultMap;
     }
 
     public void clear() {
