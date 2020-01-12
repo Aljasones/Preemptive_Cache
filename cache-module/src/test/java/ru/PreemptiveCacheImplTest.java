@@ -1,9 +1,8 @@
 package ru;
 
 import org.junit.jupiter.api.Test;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -102,19 +101,13 @@ public class PreemptiveCacheImplTest {
         cache.put(key3, value3);
         cache.put(key4, value4);
 
-        Collection keyList = new LinkedList();
-        keyList.add(key1);
-        keyList.add(key2);
-        keyList.add(key3);
-        keyList.add(key4);
+        List testMap = new LinkedList ();
+        testMap.add(value1);
+        testMap.add(value2);
+        testMap.add(value3);
+        testMap.add(value4);
 
-        HashMap<Integer, String> testMap = new HashMap<>();
-        testMap.put(key1, value1);
-        testMap.put(key2, value2);
-        testMap.put(key3, value3);
-        testMap.put(key4, value4);
-
-        Object actual = cache.getAll(keyList);
+        Object actual = cache.getAll();
         Object before = testMap;
         assertEquals(before, actual);
     }

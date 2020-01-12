@@ -17,11 +17,9 @@ public class PreemptiveCacheService extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        resp.setContentType("application/json");
-        int key = Integer.parseInt(req.getParameter("key"));
 
-        String jsonValue = mapper.writeValueAsString(cache.get(key));
-        resp.getWriter().write(jsonValue);
+            String jsonValue = mapper.writeValueAsString(cache.getAll());
+            resp.getWriter().write(jsonValue);
     }
 
     @Override
@@ -33,10 +31,5 @@ public class PreemptiveCacheService extends HttpServlet {
         cache.put(key, value);
         String jsonValue = mapper.writeValueAsString(cache.get(key));
         resp.getWriter().write(jsonValue);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        cache.clear();
     }
 }

@@ -1,11 +1,14 @@
 package ru;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public interface PreemptiveCache<K, V> {
 
      V get(K key);
+
+     List getAll();
 
      V removeAndGet(K key);
 
@@ -14,8 +17,6 @@ public interface PreemptiveCache<K, V> {
      boolean remove(K key);
 
      int size();
-
-     Map<K, V> getAll(Collection<K> collection);
 
      void clear();
 

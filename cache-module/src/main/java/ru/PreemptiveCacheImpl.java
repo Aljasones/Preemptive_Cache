@@ -1,9 +1,6 @@
 package ru;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,26 +33,31 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
         if (key == null) {
             throw new IllegalArgumentException("key is null");
         }
-
-        CacheEntry<V> entry = cache.get(key);
-        if (entry == null) {
+        CacheEntry<V> cacheEntry = cache.get(key);
+        if (cacheEntry == null) {
             return null;
         }
+        return cacheEntry.getEntry();
+    }
 
-        return entry.getEntry();
+    public List getAll() {
+        List list = new LinkedList();
+        for(Map.Entry entry: cache.entrySet()){
+            CacheEntry<V> cacheEntry = cache.get(entry.getKey());
+            list.add(cacheEntry.getEntry());
+        }
+        return list;
     }
 
     public V removeAndGet(K key) {
         if (key == null) {
             return null;
         }
-
         CacheEntry<V> entry = cache.get(key);
         if (entry != null) {
             cacheSize.decrementAndGet();
             return cache.remove(key).getEntry();
         }
-
         return null;
     }
 
@@ -66,7 +68,6 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
         if (value == null) {
             throw new IllegalArgumentException("value is null");
         }
-
         boolean exists = cache.containsKey(key);
         if (!exists) {
             cacheSize.incrementAndGet();
@@ -84,14 +85,6 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
 
     public int size() {
         return cache.size();
-    }
-
-    public Map<K, V> getAll(Collection<K> collection) {
-        Map<K, V> resultMap = new HashMap<K, V>();
-        for (K o : collection) {
-            resultMap.put(o, get(o));
-        }
-        return resultMap;
     }
 
     public void clear() {
