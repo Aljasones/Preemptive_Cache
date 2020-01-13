@@ -14,7 +14,7 @@ public class PreemptiveCacheImplTest {
         int maxSize = 10;
         PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value = "Some value";
-        int key = 1;
+        String key = "1o";
         cache.put(key, value);
 
         Object actual = cache.get(key);
@@ -27,7 +27,7 @@ public class PreemptiveCacheImplTest {
         int maxSize = 10;
         PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value = "Some value";
-        int key = 1;
+        String key = "1o";
         cache.put(key, value);
 
         Object actual = cache.removeAndGet(key);
@@ -40,7 +40,7 @@ public class PreemptiveCacheImplTest {
         int maxSize = 10;
         PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value = "Some value";
-        int key = 1;
+        String key = "1o";
         cache.put(key, value);
         assertTrue(true);
     }
@@ -52,9 +52,9 @@ public class PreemptiveCacheImplTest {
         String value1 = "value1";
         String value2 = "value2";
         String value3 = "value3";
-        int key1 = 1;
-        int key2 = 2;
-        int key3 = 3;
+        String key1 = "1o";
+        String key2 = "2t";
+        String key3 = "3t";
         int test = 3;
         cache.put(key1, value1);
         cache.put(key2, value2);
@@ -71,8 +71,8 @@ public class PreemptiveCacheImplTest {
         PreemptiveCache cache = new PreemptiveCacheImpl(maxSize);
         String value1 = "value 1";
         String value2 = "value 2";
-        int key1 = 4;
-        int key2 = 5;
+        String key1 = "4f";
+        String key2 = "5f";
         int test = 0;
         cache.put(key1, value1);
         cache.put(key2, value2);
@@ -91,10 +91,10 @@ public class PreemptiveCacheImplTest {
         String value2 = "value 2";
         String value3 = "value 3";
         String value4 = "value 4";
-        int key1 = 1;
-        int key2 = 2;
-        int key3 = 3;
-        int key4 = 4;
+        String key1 = "1";
+        String key2 = "2";
+        String key3 = "3";
+        String key4 = "4";
 
         cache.put(key1, value1);
         cache.put(key2, value2);
