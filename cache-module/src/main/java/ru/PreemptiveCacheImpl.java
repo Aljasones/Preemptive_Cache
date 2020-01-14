@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
+public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V> {
     private Map<K, CacheEntry<V>> cache;
     private Queue<K> keyQueue;
     private int maxSize;
@@ -29,38 +29,6 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
         }
     }
 
-    public V get(K key) {
-        if (key == null) {
-            throw new IllegalArgumentException("key is null");
-        }
-        CacheEntry<V> cacheEntry = cache.get(key);
-        if (cacheEntry == null) {
-            return null;
-        }
-        return cacheEntry.getEntry();
-    }
-
-    public List getAll() {
-        List list = new LinkedList();
-        for(Map.Entry entry: cache.entrySet()){
-            CacheEntry<V> cacheEntry = cache.get(entry.getKey());
-            list.add(cacheEntry.getEntry());
-        }
-        return list;
-    }
-
-    public V removeAndGet(K key) {
-        if (key == null) {
-            return null;
-        }
-        CacheEntry<V> entry = cache.get(key);
-        if (entry != null) {
-            cacheSize.decrementAndGet();
-            return cache.remove(key).getEntry();
-        }
-        return null;
-    }
-
     public void put(K key, V value) {
         if (key == null) {
             throw new IllegalArgumentException("key is null");
@@ -77,6 +45,47 @@ public class PreemptiveCacheImpl<K, V> implements PreemptiveCache<K, V>{
         }
         cache.put(key, new CacheEntry<V>(value));
         keyQueue.add(key);
+    }
+
+    public V get(K key) {
+        if (key == null) {
+            throw new IllegalArgumentException("key is null");
+        }
+        CacheEntry<V> cacheEntry = cache.get(key);
+        if (cacheEntry == null) {
+            return (V) Optional.empty();
+        }
+        return cacheEntry.getEntry();
+    }
+
+    public List getAllValue() {
+        List result = new LinkedList();
+        for (Map.Entry entry : cache.entrySet()) {
+            CacheEntry<V> cacheEntry = cache.get(entry.getKey());
+            result.add(cacheEntry.getEntry());
+        }
+        return result;
+    }
+
+    public Map getAll() {
+        Map result = new HashMap();
+        for (Map.Entry entry : cache.entrySet()) {
+            CacheEntry<V> cacheEntry = cache.get(entry.getKey());
+            result.put(entry.getKey(), cacheEntry.getEntry());
+        }
+        return result;
+    }
+
+    public V removeAndGet(K key) {
+        if (key == null) {
+            throw new IllegalArgumentException("key is null");
+        }
+        CacheEntry<V> entry = cache.get(key);
+        if (entry == null) {
+            return (V) Optional.empty();
+        }
+        cacheSize.decrementAndGet();
+        return cache.remove(key).getEntry();
     }
 
     public boolean remove(K key) {

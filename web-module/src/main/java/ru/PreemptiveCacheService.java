@@ -18,8 +18,8 @@ public class PreemptiveCacheService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-            String jsonValue = mapper.writeValueAsString(cache.getAll());
-            resp.getWriter().write(jsonValue);
+        String jsonValue = mapper.writeValueAsString(cache.getAllValue());
+        resp.getWriter().write(jsonValue);
     }
 
     @Override
